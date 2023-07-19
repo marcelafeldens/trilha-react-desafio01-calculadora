@@ -10,26 +10,41 @@ const App = () => {
   const [currentNumber, setCurrentNumber] = useState('');
   const [firstNumber, setFirstNumber] = useState('0');
   const [operation, setOperation] = useState('');
+  const [secondNumberStarted, setsecondNumberStarted] = useState(false);
 
   const handleOnClear = () => {
     setCurrentNumber('');
     setFirstNumber('0');
     setOperation('');
+    setsecondNumberStarted(false);
   };
 
   const handleAddNumber = (num) => {
-    setCurrentNumber(prev => `${prev === '' ? '' : prev}${num}`);
+    setCurrentNumber(prev => {
+      if (prev === '0') {
+        return num;
+      } else if (operation !== '' && firstNumber !== '0') {
+        if (!secondNumberStarted) {
+          setsecondNumberStarted(true);
+          return num;
+        } 
+      }
+
+      return `${prev}${num}`;
+    });
+    
   }
 
   const handleSumNumbers = () => {
     if(firstNumber === '0'){
         setFirstNumber(String(currentNumber));
-        setCurrentNumber('');
+        //setCurrentNumber('');
         setOperation('+');
     }else {
       const sum = Number(firstNumber) + Number(currentNumber);
       setCurrentNumber(String(sum));
       setOperation('');
+      setsecondNumberStarted(false);
     }
 
   }
@@ -37,12 +52,13 @@ const App = () => {
   const handleMinusNumbers = () => {
     if(firstNumber === '0'){
         setFirstNumber(String(currentNumber));
-        setCurrentNumber('');
+        //setCurrentNumber('');
         setOperation('-');
     }else {
       const sum = Number(firstNumber) - Number(currentNumber);
       setCurrentNumber(String(sum));
       setOperation('');
+      setsecondNumberStarted(false);
     }
 
   }
@@ -50,38 +66,28 @@ const App = () => {
   const handleDivideNumbers = () => {
     if(firstNumber === '0'){
       setFirstNumber(String(currentNumber));
-      setCurrentNumber('');
+      //setCurrentNumber('');
       setOperation('/');
     } else {
       const division = Number(firstNumber) / Number(currentNumber);
       setCurrentNumber(String(division));
       setOperation('');
+      setsecondNumberStarted(false);
     }
   }
 
   const handleMultiplicateNumbers = () => {
     if(firstNumber === '0'){
       setFirstNumber(String(currentNumber));
-      setCurrentNumber('');
+      //setCurrentNumber('');
       setOperation('x');
     } else {
       const multiplication = Number(firstNumber) * Number(currentNumber);
       setCurrentNumber(String(multiplication));
       setOperation('');
+      setsecondNumberStarted(false);
     }
     }
-
-  const handleExponentiateNumbers = () => {
-    if(firstNumber === '0'){
-      setFirstNumber(String(currentNumber));
-      setCurrentNumber('');
-      setOperation('x²');
-    } else {
-      const exponentiation = Number(firstNumber) ** Number(currentNumber);
-      setCurrentNumber(String(exponentiation));
-      setOperation('');
-    }
-  }
 
   const handleEquals = () => {
 
@@ -98,10 +104,6 @@ const App = () => {
             break;
           case 'x':
             handleMultiplicateNumbers();
-            break;
-          case 'x²':
-            console.log('XUXU');
-            handleExponentiateNumbers();
             break;
           default: 
             break;

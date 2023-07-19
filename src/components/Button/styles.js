@@ -12,4 +12,12 @@ export const ButtonContainer = styled.button`
     &:hover {
         opacity: 0.6;
     }
+
+    @media (max-width: 600px) {
+        font-size: 20px;
+    }
+
+    @media (max-width: 510px) {
+        font-size: 20px;
+    }
 `
